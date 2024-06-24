@@ -31,3 +31,38 @@
 
 ||========================================================================================================================================================||
 
+import java.util.HashMap;
+import java.util.Map;
+
+class Solution {
+    public boolean hasGroupsSizeX(int[] deck) {
+        // Step 1: Count frequencies of each card
+        Map<Integer, Integer> count = new HashMap<>();
+        for (int card : deck) {
+            count.put(card, count.getOrDefault(card, 0) + 1);
+        }
+        
+        // Step 2: Find the GCD of the frequencies
+        int gcd = -1;
+        for (int freq : count.values()) {
+            if (gcd == -1) {
+                gcd = freq;
+            } else {
+                gcd = gcd(gcd, freq);
+            }
+        }
+        
+        // Step 3: Check if GCD is greater than 1
+        return gcd > 1;
+    }
+    
+    // Helper method to calculate GCD
+    private int gcd(int a, int b) {
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+}
